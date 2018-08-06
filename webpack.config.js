@@ -1,5 +1,6 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const jsonImporter = require('node-sass-json-importer');
 
 module.exports = {
 	entry: './index.js',
@@ -10,14 +11,22 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.css$/,
+				test: /\.s?css$/,
 				use: ExtractTextPlugin.extract({
-					use: {
-						loader: 'css-loader',
-						options: {
-							modules: true,
+					use: [
+						{
+							loader: 'css-loader',
+							options: {
+								modules: true,
+							},
 						},
-					},
+						{
+							loader: 'sass-loader',
+							options: {
+								importer: jsonImporter,
+							},
+						},
+					],
 				}),
 			},
 			{
